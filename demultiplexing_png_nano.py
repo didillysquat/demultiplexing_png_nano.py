@@ -95,7 +95,7 @@ def demul_worker(input_q, index_list, seq_dir, re_list):
 
             r2_sfn_dict = {}
             for i in range(len(r2_sfn_file)):
-                if r2_sfn_file[i].startswith('@M'):
+                if r2_sfn_file[i].startswith('@M1:'):
                     r2_sfn_dict[r2_sfn_file[i][1:-2]] = [r2_sfn_file[i + 1], r2_sfn_file[i + 2], r2_sfn_file[i + 3]]
 
             pickle.dump(r2_sfn_dict, open('{}/{}_r2_dict.pickle'.format(seq_dir, sfn), 'wb'))
@@ -106,7 +106,7 @@ def demul_worker(input_q, index_list, seq_dir, re_list):
         count = -1
         for seq_name, seq_lines in r1_sfn_dict.items():
             count += 1
-            print('checking seq {}; {}/{}'.format(seq_name, count, num_seqs))
+            print('{}/{}; checking seq {}; '.format(count, num_seqs, seq_name))
             for i, rx in enumerate(re_list):
                 result = rx.search(seq_lines[0])
                 if result:
@@ -133,5 +133,5 @@ def demul_worker(input_q, index_list, seq_dir, re_list):
                         f.write('{}\n'.format(line))
         # here we should have written out the
 
-
-demultiplex_from_scratch()
+if __name__ == '__main__':
+    demultiplex_from_scratch()
